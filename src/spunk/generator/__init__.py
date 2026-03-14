@@ -41,10 +41,6 @@ if TYPE_CHECKING:
 __all__ = ["generate", "from_manifest", "to_snake_case", "to_pascal_case"]
 
 
-# ---------------------------------------------------------------------------
-# Internal
-# ---------------------------------------------------------------------------
-
 def _build_service_data(manifest: dict) -> list[_ServiceData]:
     """Parse a manifest dict into the internal :data:`_ServiceData` list."""
     services: list[_ServiceData] = []
@@ -84,10 +80,6 @@ def _write_package(
     write_tenant_init(tenant_dir, tenant_pascal, services)
     write_root_init(root, tenant_snake, tenant_pascal)
 
-
-# ---------------------------------------------------------------------------
-# Public API
-# ---------------------------------------------------------------------------
 
 def generate(tenant: "Tenant", output_dir: str) -> None:
     """Generate a typed SDK package from a live :class:`~spunk.Tenant`.
