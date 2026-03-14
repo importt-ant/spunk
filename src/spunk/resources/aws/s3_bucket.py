@@ -3,19 +3,11 @@ from __future__ import annotations
 import hashlib
 from typing import Dict, List, Literal, Optional, TYPE_CHECKING
 
-from .resource import AWSResource
+from .aws_resource import AWSResource
 from ...providers.aws import AWSProvider
 
 if TYPE_CHECKING:
     import pulumi_aws as aws
-
-
-def _bucket_suffix(base_name: str) -> str:
-    """Generate a deterministic 8-character suffix from ``base_name``.
-
-    Guarantees S3 bucket name global uniqueness without random drift.
-    """
-    return hashlib.sha256(base_name.encode()).hexdigest()[:8]
 
 
 class S3BucketBuilder(AWSResource):

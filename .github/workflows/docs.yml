@@ -8,7 +8,7 @@ on:
       - main
       - master
     tags:
-      - 'v*'
+      - '*'
 
 # Allow the workflow to push to the gh-pages branch.
 permissions:

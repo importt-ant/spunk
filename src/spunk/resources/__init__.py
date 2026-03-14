@@ -1,9 +1,7 @@
 from .resource import Resource
-from .aws import AWSResource, DynamoDBTableBuilder, S3BucketBuilder
+from . import aws
 
 __all__ = [
     "Resource",
-    "AWSResource",
-    "DynamoDBTableBuilder",
-    "S3BucketBuilder",
+    "aws",
 ]

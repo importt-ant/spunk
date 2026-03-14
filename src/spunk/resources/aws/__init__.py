@@ -1,4 +1,4 @@
-from .resource import AWSResource
+from .aws_resource import AWSResource
 from .dynamodb_table import DynamoDBTableBuilder
 from .s3_bucket import S3BucketBuilder
 

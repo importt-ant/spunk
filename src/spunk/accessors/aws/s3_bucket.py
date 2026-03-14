@@ -29,6 +29,7 @@ class S3Bucket:
         self._client = session.client("s3", region_name=region)
         self._bucket = resource_name
 
+    # TODO: upload for already-loaded bytes
     def upload(self, key: str, file_path: str, content_type: str) -> None:
         """Upload a local file to the bucket under ``key``."""
         with open(file_path, "rb") as f:
@@ -43,6 +44,7 @@ class S3Bucket:
         """Delete an object from the bucket."""
         self._client.delete_object(Bucket=self._bucket, Key=key)
 
+    # TODO: rename these to something more intuitive
     @contextmanager
     def fetch(self, key: str, temp_path: Optional[str] = None) -> Iterator[str]:
         """Download ``key`` to a temp file and yield the local path.
@@ -94,3 +96,8 @@ class S3Bucket:
             Params={"Bucket": self._bucket, "Key": key},
             ExpiresIn=expires_in,
         )
+    
+    # TODO: missing normal download method that returns bytes, maybe with an optional streaming mode for large files
+    # TODO: missing query methods for listing objects by prefix, filtering by tags, etc.
+    # TODO: missing support for multipart uploads for large files
+    # TODO: missing support for managing file metadata

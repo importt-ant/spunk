@@ -68,12 +68,14 @@ class Tenant:
 
     def generate(self, output_dir: str) -> None:
         """Generate a typed SDK package for this tenant into ``output_dir``."""
-        from .codegen import generate as _generate
+        from .generator import generate as _generate
         _generate(self, output_dir)
 
     # ------------------------------------------------------------------
     # Manifest: serialise / store / restore accessor descriptors
     # ------------------------------------------------------------------
+
+    # TODO: check all this trash
 
     def to_manifest(self) -> dict:
         """Serialise this tenant's accessor descriptors to a plain dict.
@@ -102,7 +104,7 @@ class Tenant:
             #     ]
             # }
         """
-        from .codegen import _to_snake_case, _to_pascal_case
+        from .generator import to_snake_case as _to_snake_case, to_pascal_case as _to_pascal_case
 
         services = []
         for service, provider in self._services:
@@ -176,12 +178,12 @@ class Tenant:
         :param key: Object key (e.g. ``spunk/acme.json``).
         :param profile: AWS profile name (optional).
         :param region: AWS region (optional).
-        :returns: The manifest dict, suitable for :func:`~spunk.codegen.from_manifest`.
+        :returns: The manifest dict, suitable for :func:`~spunk.generator.from_manifest`.
 
         Example::
 
             manifest = Tenant.load_manifest("my-bucket", "spunk/acme.json")
-            from spunk.codegen import from_manifest
+            from spunk.generator import from_manifest
             from_manifest(manifest, "infra/")
         """
         import boto3

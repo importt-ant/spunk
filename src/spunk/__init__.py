@@ -1,7 +1,7 @@
 from .tenant import Tenant, DependencyError
 from .service import Service
 from . import providers
-from . import codegen
+from . import generator
 from . import accessors
 
 __all__ = [
@@ -9,6 +9,6 @@ __all__ = [
     'DependencyError',
     'Service',
     'providers',
-    'codegen',
+    'generator',
     'accessors',
 ]

@@ -36,8 +36,9 @@ class AWSResource(Resource):
         self._tags[key] = value
         return self
 
+    # TODO: will custom accessors work for people that inherit this?
     def accessor(self):
-        """Return a codegen descriptor pointing to the matching accessor class.
+        """Return a generator descriptor pointing to the matching accessor class.
 
         Derives the module path by replacing ``.resources.`` with ``.accessors.``
         in this class's module. The accessor class name is derived from the

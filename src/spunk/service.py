@@ -37,7 +37,7 @@ class Service(ABC):
     def dependencies(self) -> List[Type["Service"]]:
         """Return the list of service types this service depends on.
 
-        Override to declare dependencies::
+        Defaults to an empty list. Override to declare dependencies::
 
             def dependencies(self):
                 return [OtherService]

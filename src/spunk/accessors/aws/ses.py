@@ -24,6 +24,7 @@ class SES:
         self._client = session.client("ses", region_name=region)
         self._from_email = from_email
 
+    # TODO: support more of the features of SES, like attachments, bulk sending with different content per recipient, templates, etc.
     def send(
         self,
         to: str,

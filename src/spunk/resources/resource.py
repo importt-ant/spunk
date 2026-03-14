@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Optional, Tuple
 
+# TODO: json structure can be moved here, so we can export as json
 
 class Resource(ABC):
     """Abstract base class for all infrastructure resources.
@@ -26,11 +27,11 @@ class Resource(ABC):
         ...
 
     def accessor(self) -> Optional[Tuple[str, str, Dict[str, Any]]]:
-        """Return ``(module_path, class_name, kwargs)`` for codegen, or ``None``.
+        """Return ``(module_path, class_name, kwargs)`` for the generator, or ``None``.
 
         Concrete resource subclasses override this to declare which accessor
         class from ``spunk.accessors`` represents this resource at runtime,
         and with which constructor arguments.  Called by
-        :func:`spunk.codegen.generate` — do not call directly.
+        :func:`spunk.generator.generate` — do not call directly.
         """
         return None

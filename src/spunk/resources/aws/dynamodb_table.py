@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Dict, List, Literal, Optional, TYPE_CHECKING
 
-from .resource import AWSResource
+from .aws_resource import AWSResource
 from ...providers.aws import AWSProvider
 
 if TYPE_CHECKING:

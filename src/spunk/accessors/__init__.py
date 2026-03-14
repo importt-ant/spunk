@@ -1,3 +1,5 @@
-from .aws import DynamoDBTable, S3Bucket, SES
+from . import aws
 
-__all__ = ["DynamoDBTable", "S3Bucket", "SES"]
+__all__ = [
+    "aws",
+]

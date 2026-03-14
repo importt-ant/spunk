@@ -166,7 +166,7 @@ def up(pulumi_args: tuple, no_generate: bool) -> None:
 def gen(tenant_name: Optional[str], output_dir: Optional[str], bucket: Optional[str]) -> None:
     """Fetch a manifest from S3 and regenerate the typed SDK locally."""
     from spunk.tenant import Tenant
-    from spunk.codegen import from_manifest
+    from spunk.generator import from_manifest
 
     cfg = _load_config()
     bucket = bucket or cfg.get("state_bucket")
