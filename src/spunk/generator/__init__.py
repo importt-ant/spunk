@@ -45,16 +45,18 @@ def _build_service_data(manifest: dict) -> list[_ServiceData]:
     """Parse a manifest dict into the internal :data:`_ServiceData` list."""
     services: list[_ServiceData] = []
     for svc in manifest["services"]:
+        snake = to_snake_case(svc["name"])
+        pascal = to_pascal_case(svc["name"])
         resource_entries: list[_ResourceEntry] = [
             (
                 r["accessor_module"],
                 r["accessor_class"],
                 r["kwargs"],
-                r["instance_name"],
+                to_snake_case(r["resource_name"]),
             )
             for r in svc["resources"]
         ]
-        services.append((svc["snake"], svc["pascal"], resource_entries))
+        services.append((snake, pascal, resource_entries))
     return services
 
 

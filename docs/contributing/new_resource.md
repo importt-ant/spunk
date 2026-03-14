@@ -180,6 +180,12 @@ Rules:
 
 ## `accessor()` — convention vs. override
 
+`accessor()` returns the low-level `(module_path, class_name, kwargs)` tuple
+that describes which accessor class represents this resource at runtime.
+`to_manifest_entry()` on the base `Resource` class calls it and wraps the
+result into the manifest dict — you never need to touch `to_manifest_entry()`
+directly.
+
 ### Convention-based (default)
 
 `AWSResource.accessor()` automatically derives the accessor descriptor:
