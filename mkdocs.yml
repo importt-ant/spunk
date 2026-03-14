@@ -45,6 +45,8 @@ plugins:
 
 nav:
   - Home: index.md
+  - Contributing:
+    - Adding a Resource: contributing/new_resource.md
   - API Reference:
     - Tenant: api/tenant.md
     - Service: api/service.md
