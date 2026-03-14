@@ -30,6 +30,11 @@ theme:
 
 plugins:
   - search
+  - gen-files:
+      scripts:
+        - docs/gen_ref_pages.py
+  - literate-nav:
+      nav_file: SUMMARY.md
   - mkdocstrings:
       handlers:
         python:
@@ -47,14 +52,7 @@ nav:
   - Home: index.md
   - Contributing:
     - Adding a Resource: contributing/new_resource.md
-  - API Reference:
-    - Tenant: api/tenant.md
-    - Service: api/service.md
-    - Resources: api/resources.md
-    - Providers: api/providers.md
-    - Accessors: api/accessors.md
-    - Codegen: api/codegen.md
-    - CLI: api/cli.md
+  - API Reference: api/
 
 extra:
   version:

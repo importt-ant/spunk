@@ -19,7 +19,7 @@ The file names must match exactly — the convention-based `accessor()` on
 `AWSResource` derives the accessor module path by replacing `.resources.` with
 `.accessors.` in the builder's module path and stripping the `Builder` suffix
 from the class name. If the names do not match you must override `accessor()`
-manually (see [SESIdentityBuilder](#override-accessor) for an example).
+manually (see `SESIdentityBuilder` for an example).
 
 ---
 
