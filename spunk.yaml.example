@@ -1,0 +1,21 @@
+# spunk.yaml — configuration for the spunk CLI
+#
+# Place this file in your project root, next to Pulumi.yaml.
+
+# Path to the Python file that defines your tenants.
+# This file must expose a module-level list:
+#   TENANTS = [acme_tenant, ...]
+entrypoint: __main__.py
+
+# S3 bucket where tenant manifests are stored after 'spunk up'.
+# Anyone with read access to this bucket can run 'spunk gen'
+# to regenerate the typed SDK locally without the original infra code.
+state_bucket: my-pulumi-state-bucket
+
+# Key prefix within state_bucket. Manifests are stored at:
+#   s3://<state_bucket>/<state_prefix>/<tenant_name>.json
+state_prefix: spunk/
+
+# If set, 'spunk up' will automatically run 'spunk gen' after provisioning.
+generate:
+  output: infra/

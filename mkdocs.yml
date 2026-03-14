@@ -1,0 +1,61 @@
+site_name: spunk
+site_url: https://importt-ant.github.io/spunk/docs/
+repo_url: https://github.com/importt-ant/spunk
+repo_name: importt-ant/spunk
+site_description: A general-purpose Pulumi framework for Python.
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]  # standard src/ layout — griffe finds src/spunk/ here
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            members_order: source
+            inherited_members: false
+
+nav:
+  - Home: index.md
+  - API Reference:
+    - Tenant: api/tenant.md
+    - Service: api/service.md
+    - Resources: api/resources.md
+    - Providers: api/providers.md
+    - Accessors: api/accessors.md
+    - Codegen: api/codegen.md
+    - CLI: api/cli.md
+
+extra:
+  version:
+    provider: mike
+    alias: true
+    default: latest

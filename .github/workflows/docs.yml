@@ -1,0 +1,72 @@
+name: Deploy docs
+
+on:
+  push:
+    # Tag push (e.g. v4.0.0) → versioned release + update "latest" alias.
+    # Branch push → deploy as "dev" so in-progress work is always visible.
+    branches:
+      - main
+      - master
+    tags:
+      - 'v*'
+
+# Allow the workflow to push to the gh-pages branch.
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # mike reads the full git history to manage versions.json on gh-pages.
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install spunk + doc dependencies
+        run: |
+          pip install -e ".[docs]"
+
+      - name: Configure git identity
+        run: |
+          git config --global user.name  "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      # -----------------------------------------------------------------------
+      # Determine the version label for this run.
+      #   v4.0.0 tag  →  VERSION=4.0.0  IS_RELEASE=true
+      #   branch push →  VERSION=dev    IS_RELEASE=false
+      # -----------------------------------------------------------------------
+      - name: Resolve version
+        run: |
+          if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then
+            echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_ENV"
+            echo "IS_RELEASE=true"              >> "$GITHUB_ENV"
+          else
+            echo "VERSION=dev"     >> "$GITHUB_ENV"
+            echo "IS_RELEASE=false" >> "$GITHUB_ENV"
+          fi
+
+      # -----------------------------------------------------------------------
+      # Deploy.
+      #   Release:  mike deploy docs/{version} + update "latest" alias
+      #             mike set-default docs/latest  (idempotent redirect at root)
+      #   Dev push: mike deploy docs/dev
+      # All versioned paths are placed under the "docs/" prefix so the final
+      # URL is https://importt-ant.github.io/spunk/docs/{version}/
+      # -----------------------------------------------------------------------
+      - name: Deploy versioned release
+        if: env.IS_RELEASE == 'true'
+        run: |
+          mike deploy --prefix docs --push --update-aliases "$VERSION" latest
+          mike set-default --prefix docs --push latest
+
+      - name: Deploy dev snapshot
+        if: env.IS_RELEASE == 'false'
+        run: |
+          mike deploy --prefix docs --push dev
