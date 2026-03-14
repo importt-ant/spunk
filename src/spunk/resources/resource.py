@@ -1,13 +1,14 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Optional, Tuple
 
-# TODO: json structure can be moved here, so we can export as json
 
 class Resource(ABC):
     """Abstract base class for all infrastructure resources.
 
     All provider-specific resource classes ultimately inherit from this.
-    ``__call__`` is intended for internal use by Service implementations
+    ``declare()`` is intended for internal use by Service implementations
     — end users should not invoke it directly.
     """
 
@@ -35,3 +36,31 @@ class Resource(ABC):
         :func:`spunk.generator.generate` — do not call directly.
         """
         return None
+
+    def to_manifest_entry(self) -> Optional[Dict[str, Any]]:
+        """Return this resource's manifest dict entry, or ``None`` if it has no accessor.
+
+        This is the single source of truth for the manifest schema at the
+        resource level. :meth:`Tenant.to_manifest` calls this and filters out
+        ``None`` values — do not call directly.
+
+        The returned dict has the shape::
+
+            {
+                "resource_name":   "acme-items",
+                "accessor_module": "spunk.accessors.aws.dynamodb_table",
+                "accessor_class":  "DynamoDBTable",
+                "kwargs":          {"resource_name": "acme-items", ...},
+            }
+        """
+        result = self.accessor()
+        if result is None:
+            return None
+
+        module_path, class_name, kwargs = result
+        return {
+            "resource_name": self.resource_name,
+            "accessor_module": module_path,
+            "accessor_class": class_name,
+            "kwargs": kwargs,
+        }

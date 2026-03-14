@@ -71,12 +71,6 @@ class Tenant:
         from .generator import generate as _generate
         _generate(self, output_dir)
 
-    # ------------------------------------------------------------------
-    # Manifest: serialise / store / restore accessor descriptors
-    # ------------------------------------------------------------------
-
-    # TODO: check all this trash
-
     def to_manifest(self) -> dict:
         """Serialise this tenant's accessor descriptors to a plain dict.
 
@@ -90,11 +84,9 @@ class Tenant:
             #     "services": [
             #         {
             #             "name": "ExampleService",
-            #             "snake": "example_service",
-            #             "pascal": "ExampleService",
             #             "resources": [
             #                 {
-            #                     "instance_name": "acme_items",
+            #                     "resource_name": "acme-items",
             #                     "accessor_module": "spunk.accessors.aws.dynamodb_table",
             #                     "accessor_class": "DynamoDBTable",
             #                     "kwargs": {"resource_name": "acme-items", ...}
@@ -104,26 +96,15 @@ class Tenant:
             #     ]
             # }
         """
-        from .generator import to_snake_case as _to_snake_case, to_pascal_case as _to_pascal_case
-
         services = []
         for service, provider in self._services:
-            resources = []
-            for resource in service.resources(provider):
-                result = resource.accessor()
-                if result is None:
-                    continue
-                module_path, class_name, kwargs = result
-                resources.append({
-                    "instance_name": _to_snake_case(resource.resource_name),
-                    "accessor_module": module_path,
-                    "accessor_class": class_name,
-                    "kwargs": kwargs,
-                })
+            resources = [
+                entry
+                for resource in service.resources(provider)
+                if (entry := resource.to_manifest_entry()) is not None
+            ]
             services.append({
                 "name": service.name(),
-                "snake": _to_snake_case(service.name()),
-                "pascal": _to_pascal_case(service.name()),
                 "resources": resources,
             })
 
