@@ -8,4 +8,4 @@ the generated SDK package produced by `spunk gen`.
 
 ::: spunk.accessors.aws.s3_bucket.S3Bucket
 
-::: spunk.accessors.aws.ses.SES
+::: spunk.accessors.aws.ses_identity.SESIdentity
